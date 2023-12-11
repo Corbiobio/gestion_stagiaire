@@ -50,7 +50,7 @@ class Formateur_manager
             array_push($arr, $formateur);
 
             //get all formation
-            $sql_2 = "SELECT type_formation.NOM_FORMATION FROM `former` JOIN type_formation ON former.ID_FORMATION = type_formation.ID_FORMATION WHERE ID_FORMATEUR = :id_formateur";
+            $sql_2 = "SELECT type_formation.ID_FORMATION FROM `former` JOIN type_formation ON former.ID_FORMATION = type_formation.ID_FORMATION WHERE ID_FORMATEUR = :id_formateur";
 
             $id_formateur = $formateur->getId_formateur();
 
@@ -60,7 +60,7 @@ class Formateur_manager
 
             $arr_2 = array();
             while ($line_2 = $result_2->fetch()) {
-                array_push($arr_2, $line_2["NOM_FORMATION"]);
+                array_push($arr_2, $line_2["ID_FORMATION"]);
             }
             $formateur->setFormation($arr_2);
         }

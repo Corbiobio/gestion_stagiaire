@@ -70,7 +70,7 @@ $formateur_manager = new Formateur_manager($base);
             $current_date = date("Y-m-d");
 
             echo "<div>
-                <input type=checkbox name=formateur[$id_formateur] id=$nom value=$nom><label for=$nom>$nom dans la salle : $salle</label>
+                <input type=checkbox name=formateur[$id_formateur] id=$id_formateur value=$nom><label for=$id_formateur>$nom dans la salle : $salle</label>
                 <label for=start_$id_formateur>debut : </label> <input type=date value=$current_date min=$current_date name=start[$id_formateur] id=start_$id_formateur>
                 <label for=end_$id_formateur>, fin : </label> <input type=date value=$current_date min=$current_date name=end[$id_formateur] id=end_$id_formateur>
             </div>";
@@ -128,10 +128,36 @@ if (isset($_POST["name"]) && isset($_POST["last_name"]) && isset($_POST["nationa
     foreach ($all_formateur as $key => $obj) {
         array_push($formateur_arr, $formateur_manager->formateur_to_arr($obj));
     }
-
     ?>
+
     let all_formateur = <?= json_encode($formateur_arr) ?>;
     console.log(all_formateur);
 
+    let formation = document.getElementById("formation")
+
+    //execute on page load
+    formation_disable(formation.value)
+
+    formation.addEventListener("change", (e) => {
+        //get current formation
+        let current_formation = e.target.value
+
+        formation_disable(current_formation)
+    })
+
+    function formation_disable(formation) {
+        for (let i = 0; i < all_formateur.length; i++) {
+            let formateur = all_formateur[i]
+            //get input for each formateur
+            let input = document.getElementById(formateur.id_formateur)
+
+            //if formateur have formation 
+            if (formateur.formation.includes(formation)) {
+                input.removeAttribute("disabled")
+            } else {
+                input.setAttribute("disabled", true)
+            }
+        }
+    }
 
 </script>
