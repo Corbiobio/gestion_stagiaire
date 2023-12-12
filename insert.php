@@ -11,7 +11,6 @@ $formation_manager = new Formation_manager($base);
 $stagiaire_manager = new Stagiaire_manager($base);
 $formateur_manager = new Formateur_manager($base);
 
-
 ?>
 
 <form action=# method=post>
@@ -64,7 +63,6 @@ $formateur_manager = new Formateur_manager($base);
 
             $nom = $value->getNom_formateur();
             $salle = $value->getNom_salle();
-            // $formation = $value->getNom_formation();
             $id_formateur = $value->getId_formateur();
 
             $current_date = date("Y-m-d");

@@ -62,5 +62,20 @@ class Stagiaire_manager
 
         $result->execute();
     }
+
+    public function getOne_stagiaire($id)
+    {
+        $sql = "SELECT ID_STAGIAIRE,ID_FORMRATION,type_formation.NOM_FORMATION AS nom_formation,stagiaire.ID_NATIONALITER,nationaliter.LABELLE_NATIONALITER,NOM_STAGIERE,PRENOM_STAGIERE FROM `stagiaire` 
+        JOIN nationaliter ON nationaliter.ID_NATIONALITER = stagiaire.ID_NATIONALITER
+        JOIN type_formation ON stagiaire.ID_FORMRATION = type_formation.ID_FORMATION
+        WHERE ID_STAGIAIRE = :id";
+
+        $result = $this->getC()->prepare($sql);
+
+        $result->bindParam(":id", $id);
+
+        $result->execute();
+        return $result->fetch();
+    }
 }
 ?>

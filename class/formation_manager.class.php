@@ -35,5 +35,36 @@ class Formation_manager
 
         $result->execute();
     }
+
+    public function get_all_formation()
+    {
+        $sql = "SELECT * FROM enseigner";
+        $result = $this->getC()->query($sql);
+
+        $arr = array();
+
+        while ($line = $result->fetch()) {
+            $formation = new Formation();
+
+            $formation->setDate_end($line["DATE_FIN"]);
+            $formation->setDate_start($line["DATE_DEBUT"]);
+            $formation->setId_formateur($line["ID_FORMATEUR"]);
+            $formation->setId_stagiaire($line["ID_STAGIERE"]);
+
+            array_push($arr, $formation);
+        }
+
+        return $arr;
+    }
+
+    public function delete_formation_with_id_students($id)
+    {
+        $sql = "DELETE FROM enseigner WHERE ID_STAGIERE = :id";
+        $result = $this->getC()->prepare($sql);
+
+        $result->bindParam(":id", $id);
+
+        $result->execute();
+    }
 }
 ?>

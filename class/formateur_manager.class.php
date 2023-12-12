@@ -68,6 +68,20 @@ class Formateur_manager
         return $arr;
     }
 
+    public function getOne_formateur($id)
+    {
+        $sql = "SELECT ID_FORMATEUR,formateur.ID_SALLE,NOM_FORMATEUR,salle_formation.NOM_SALLE FROM `formateur` 
+        JOIN salle_formation ON formateur.ID_SALLE = salle_formation.ID_SALLE
+        WHERE ID_FORMATEUR = :id";
+
+        $result = $this->getC()->prepare($sql);
+
+        $result->bindParam(":id", $id);
+
+        $result->execute();
+        return $result->fetch();
+    }
+
     public function formateur_to_arr($obj)
     {
         $arr = array();
