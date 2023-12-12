@@ -77,5 +77,26 @@ class Stagiaire_manager
         $result->execute();
         return $result->fetch();
     }
+
+    public function update_stagiaire($obj)
+    {
+        $sql = "UPDATE stagiaire SET ID_FORMRATION = :id_formation, ID_NATIONALITER = :id_nationaliter, NOM_STAGIERE = :nom, PRENOM_STAGIERE = :prenom WHERE ID_STAGIAIRE = :id_stagiaire;";
+
+        $result = $this->getC()->prepare($sql);
+
+        $id_stagiaire = $obj->getId_stagiaire();
+        $id_formation = $obj->getId_formation();
+        $id_nationaliter = $obj->getId_nationaliter();
+        $nom = $obj->getNom_stagiaire();
+        $prenom = $obj->getPrenom_stagiaire();
+
+        $result->bindParam(":id_formation", $id_formation);
+        $result->bindParam(":id_nationaliter", $id_nationaliter);
+        $result->bindParam(":nom", $nom);
+        $result->bindParam(":prenom", $prenom);
+        $result->bindParam(":id_stagiaire", $id_stagiaire);
+
+        $result->execute();
+    }
 }
 ?>

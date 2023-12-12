@@ -31,8 +31,8 @@ $formateur_manager = new Formateur_manager($base);
             $nationality = $stagiaire_manager->getAll_nationality();
 
             var_dump($nationality);
-            foreach ($nationality as $key => $value) {
-                echo "<option value=$key>$value</option>";
+            foreach ($nationality as $id_nationality => $name_nationality) {
+                echo "<option value=$id_nationality>$name_nationality</option>";
             }
 
             ?>
@@ -48,8 +48,8 @@ $formateur_manager = new Formateur_manager($base);
 
             $type_formation = $stagiaire_manager->getAll_type_formation();
 
-            foreach ($type_formation as $key => $value) {
-                echo "<option value=$key>$value</option>";
+            foreach ($type_formation as $id_formation => $name_formation) {
+                echo "<option value=$id_formation>$name_formation</option>";
             }
 
             ?>
