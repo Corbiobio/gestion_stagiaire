@@ -33,42 +33,47 @@ if (isset($_POST["stagiaire"])) {
         </tr>
 
         <?php
-        $all_formation = $formation_manager->get_all_formation();
 
+        $all_formation = $formation_manager->get_all_formation();
         $arr_formation = array();
 
         foreach ($all_formation as $key => $obj) {
             $stagiaire = $stagiaire_manager->getOne_stagiaire($obj->getId_stagiaire());
             $formateur = $formateur_manager->getOne_formateur($obj->getId_formateur());
-
-
             //make one arr by stagiaire
             if (!isset($arr_formation[$stagiaire["ID_STAGIAIRE"]])) {
-
+                // reset number of formation
+        
                 $arr = array();
+                $arr["number_formateur"] = 0;
+                $number_formateur = $arr["number_formateur"];
 
                 $arr["name"] = $stagiaire["PRENOM_STAGIERE"];
                 $arr["last_name"] = $stagiaire["NOM_STAGIERE"];
                 $arr["nationality"] = $stagiaire["LABELLE_NATIONALITER"];
                 $arr["name_formation"] = $stagiaire["nom_formation"];
 
+                //arr of formation
                 $arr["formation"] = array();
 
-                $arr["formation"][0]["nom_formateur"] = $formateur["NOM_FORMATEUR"];
-                $arr["formation"][0]["nom_salle"] = $formateur["NOM_SALLE"];
-                $arr["formation"][0]["date_start"] = $obj->getDate_start();
-                $arr["formation"][0]["date_end"] = $obj->getDate_end();
+                $arr["formation"][$number_formateur]["nom_formateur"] = $formateur["NOM_FORMATEUR"];
+                $arr["formation"][$number_formateur]["nom_salle"] = $formateur["NOM_SALLE"];
+                $arr["formation"][$number_formateur]["date_start"] = $obj->getDate_start();
+                $arr["formation"][$number_formateur]["date_end"] = $obj->getDate_end();
 
                 $arr_formation[$stagiaire["ID_STAGIAIRE"]] = $arr;
 
             } else {
-                //put info of second formateur
+                $number_formateur = $arr_formation[$stagiaire["ID_STAGIAIRE"]]["number_formateur"];
+
+                //put info of any other formation
                 array_push($arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"], array());
-                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][1]["nom_formateur"] = $formateur["NOM_FORMATEUR"];
-                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][1]["nom_salle"] = $formateur["NOM_SALLE"];
-                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][1]["date_start"] = $obj->getDate_start();
-                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][1]["date_end"] = $obj->getDate_end();
+                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][$number_formateur]["nom_formateur"] = $formateur["NOM_FORMATEUR"];
+                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][$number_formateur]["nom_salle"] = $formateur["NOM_SALLE"];
+                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][$number_formateur]["date_start"] = $obj->getDate_start();
+                $arr_formation[$stagiaire["ID_STAGIAIRE"]]["formation"][$number_formateur]["date_end"] = $obj->getDate_end();
             }
+            $arr_formation[$stagiaire["ID_STAGIAIRE"]]["number_formateur"]++;
         }
 
         //create each tr
@@ -105,6 +110,7 @@ if (isset($_POST["stagiaire"])) {
         </tr>
         ");
         }
+
         ?>
 
     </table>

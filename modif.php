@@ -11,7 +11,6 @@ $formation_manager = new Formation_manager($base);
 $formateur_manager = new Formateur_manager($base);
 $stagiaire_manager = new Stagiaire_manager($base);
 
-// var_dump($_POST);
 
 if (isset($_POST["stagiaire_modif"])) {
 
@@ -142,7 +141,7 @@ if (isset($_POST["stagiaire_modif"])) {
 
             echo ("
             <td>
-                <select name=formation[$id_stagiaire]>
+                <select name=formation[$id_stagiaire] class=formation id=select_$id_stagiaire>
             ");
             foreach ($all_formation as $id_formation => $name_formation) {
                 if ($name_formation === $formation) {
@@ -160,8 +159,6 @@ if (isset($_POST["stagiaire_modif"])) {
             echo ("<td>");
             $all_formateur = $formateur_manager->select_all_formateur();
 
-            // var_dump($obj["formation"][0]["id_formateur"]);
-        
             $curr_formation = $obj["formation"];
             foreach ($all_formateur as $i => $obj) {
 
@@ -187,15 +184,14 @@ if (isset($_POST["stagiaire_modif"])) {
                     $date_start = date("Y-m-d");
                     $date_end = date("Y-m-d");
                 }
-                $date_curr = date("Y-m-d");
 
                 $id_input_formateur = "formateur_" . $id_stagiaire . "_" . $id_formateur;
                 echo ("
-                <input type=checkbox name=formateur[$id_stagiaire][$id_formateur] value=$name_formateur id=$id_input_formateur>
+                <input class=checkbox_$id_stagiaire type=checkbox name=formateur[$id_stagiaire][$id_formateur] value=$name_formateur id=$id_input_formateur>
                 <label for=$id_input_formateur >$name_formateur</label>
                 - $nom_salle -
-                <input type=date value=$date_start min=$date_curr name=start[$id_stagiaire][$id_formateur]>
-                <input type=date value=$date_end min=$date_curr name=end[$id_stagiaire][$id_formateur]>
+                <input type=date value=$date_start name=start[$id_stagiaire][$id_formateur]>
+                <input type=date value=$date_end name=end[$id_stagiaire][$id_formateur]>
                 <br>
                 ");
             }
@@ -206,10 +202,7 @@ if (isset($_POST["stagiaire_modif"])) {
                 </td>
             </tr>
             ");
-
-
         }
-
         ?>
 
     </table>
@@ -226,7 +219,7 @@ if (isset($_POST["stagiaire_modif"])) {
     <?php include "style.css"; ?>
 </style>
 
-<!-- <script>
+<script>
     <?php
     //arr of obj to arr of arr
     $formateur_arr = array();
@@ -238,31 +231,43 @@ if (isset($_POST["stagiaire_modif"])) {
     let all_formateur = <?= json_encode($formateur_arr) ?>;
     console.log(all_formateur);
 
-    let formation = document.getElementById("formation")
+    //get all select formation
+    let items = document.getElementsByClassName("formation")
 
-    //execute on page load
-    formation_disable(formation.value)
+    //html collection to arr
+    items = [...items]
 
-    formation.addEventListener("change", (e) => {
+    items.forEach(element => {
+        //execute on page load
+        formation_disable(all_formateur, element)
+
+        //add listener
+        element.addEventListener("change", (e) => {
+
+            formation_disable(all_formateur, element)
+        })
+    });
+
+    function formation_disable(all_formateur, element) {
+
         //get current formation
-        let current_formation = e.target.value
+        let current_formation = element.value
+        //select id | split to get only id
+        let id_stagiaire = element.id.split("_")[1]
 
-        formation_disable(current_formation)
-    })
-
-    function formation_disable(formation) {
         for (let i = 0; i < all_formateur.length; i++) {
             let formateur = all_formateur[i]
-            //get input for each formateur
-            let input = document.getElementById(formateur.id_formateur)
 
-            //if formateur have formation 
-            if (formateur.formation.includes(formation)) {
-                input.removeAttribute("disabled")
+            //get checkbox for each formateur
+            let checkbox = document.getElementById("formateur_" + id_stagiaire + "_" + formateur.id_formateur)
+
+            //if formateur have formation
+            if (formateur.formation.includes(current_formation)) {
+                checkbox.removeAttribute("disabled")
             } else {
-                input.setAttribute("disabled", true)
+                checkbox.setAttribute("disabled", true)
             }
         }
     }
 
-</script> -->
+</script>
