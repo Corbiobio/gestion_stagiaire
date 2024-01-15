@@ -18,10 +18,10 @@
         - js : 1h
           
     - #### modification : 6h30
-        -##### afficher la page
+        - ##### afficher la page
           - php : 2h
           - js : 1h30
-        -##### page dynamique
+        - ##### page dynamique
           - php : 1h
           - js : 2h      
 - ### Bug : 2h
