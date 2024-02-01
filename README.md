@@ -4,6 +4,15 @@ Training with php and POO
 ## Preview
 ![gestion_stagiere](https://github.com/Corbiobio/gestion_stagiaire/assets/113342618/30ec8f8d-93f7-4f3b-bb22-d4d99b8b6de6)
 
+## Run project
+```
+import bdd
+change bdd parameter in base.php
+php -S localhost:8000
+go to http://localhost:8000/insert.php
+```
+
+
 ## temps total : 15h
 
 - ### Base de donnée : 1h30
