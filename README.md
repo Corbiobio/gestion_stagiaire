@@ -1,5 +1,8 @@
 # gestion_stagiaire
+Training with php and POO
 
+## Preview
+![gestion_stagiere](https://github.com/Corbiobio/gestion_stagiaire/assets/113342618/30ec8f8d-93f7-4f3b-bb22-d4d99b8b6de6)
 
 ## temps total : 15h
 
